@@ -88,6 +88,7 @@ def hogwarts_by_house(filename):
     [['Abercrombie', 'Bell', 'Brown', 'Coote', 'Finnigan', 'Granger', 'Johnson', 'Jordan', 'Kirke', 'Longbottom', 'Macdonald', 'McDonald', 'McLaggen', 'Patil', 'Peakes', 'Potter', 'Robins', 'Sloper', 'Thomas', 'Vane', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Wood'], ['Baddock', 'Bletchley', 'Bullstrode', 'Crabbe', 'Flint', 'Goyle', 'Higgs', 'Malfoy', 'Parkinson', 'Pritchard', 'Pucey', 'Zabini'], ['Bones', 'Branstone', 'Cauldwell', 'Diggory', 'Finch-Fletchley', 'Macmillan', 'Madley', 'Midgeon', 'Smith', 'Whitby', 'Zeller'], ['Ackerley', 'Belby', 'Boot', 'Brocklehurst', 'Carmichael', 'Clearwater', 'Corner', 'Davies', 'Goldstein', 'Lovegood', 'Patil', 'Quirke', 'Turpin'], ['Abbott', 'Chang', 'Creevey', 'Creevey', 'Edgecombe', 'Nott', 'Spinnet'], ['Baron', 'Friar', 'Lady', 'Nick'], ['Flitwick', 'McGonagall', 'Snape', 'Sprout']]
 
     """
+    cohort_data = open(filename)
 
     all_students = []
     gryffindor = []
@@ -98,8 +99,35 @@ def hogwarts_by_house(filename):
     ghosts = []
     instructors = []
 
-    # Code goes here
+    for line in cohort_data:
+        line = line.rstrip()
+        info = line.split("|")
+        last_name = info[1]
+        house = info[2]
+        cohort_semester = info[-1]
+        if cohort_semester == "I":
+            instructors.append(last_name)
+        elif cohort_semester == "G":
+            ghosts.append(last_name)
+        else:
+            if house == "Gryffindor":
+                gryffindor.append(last_name)
+            elif house == "Hufflepuff":
+                hufflepuff.append(last_name)
+            elif house == "Slytherin":
+                slytherin.append(last_name)
+            elif house == "Dumbledore's Army":
+                dumbledores_army.append(last_name)
+            else:
+                ravenclaw.append(last_name)
 
+    all_students = [sorted(house) for house in [gryffindor, 
+    slytherin, hufflepuff, ravenclaw, dumbledores_army, ghosts, instructors]]
+
+
+
+    # Code goes here
+    cohort_data.close()
     return all_students
 
 
